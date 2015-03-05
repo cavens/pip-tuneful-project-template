@@ -122,19 +122,14 @@ class TestAPI(unittest.TestCase):
             "file": (StringIO("File contents"), "test.txt")
         }
 
-        #response = self.client.post("/api/files",data=data,content_type="multipart/form-data")
-        print "EEN"
         response = self.client.post("/api/files",data=data,content_type="multipart/form-data", headers=[("Accept", "application/json")])
 
-        print "ZES"        
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.mimetype, "application/json")
 
-        print "ZEVEN"                
         data = json.loads(response.data)
         self.assertEqual(urlparse(data["path"]).path, "/uploads/test.txt")
 
-        print "ACHT"        
         path = upload_path("test.txt")
         self.assertTrue(os.path.isfile(path))
         with open(path) as f:
