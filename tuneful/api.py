@@ -58,7 +58,6 @@ def uploaded_file(filename):
 @decorators.require("multipart/form-data")
 def file_post():
     file = request.files.get("file")
-    print file
     if not file:
         data = {"message": "Could not find file data"}
         return Response(json.dumps(data), 422, mimetype="application/json")
@@ -67,10 +66,7 @@ def file_post():
     session.add(db_file)
     session.commit()
     file.save(upload_path(filename))
-    print filename
-    print "VIJFENHALF"
     data = db_file.as_dictionary()
-    print "BIJNAZES"
     return Response(json.dumps(data), 201, mimetype="application/json")
 
   
